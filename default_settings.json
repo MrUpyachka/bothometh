@@ -1,0 +1,322 @@
+{
+  "developerUsernames": [
+    "upyach"
+  ],
+  "devModeEnabled": true,
+  "simpleReplyEnabled": true,
+  "strongReplyEnabled": true,
+  "bonkEnabled": true,
+  "commandToReplies": {
+    "bonk": "bonk",
+    "report_horny": "bonk",
+    "aggress": "strongReply"
+  },
+  "replies": {
+    "simpleReply": [
+      {
+        "content": "CAADBAADNAADmMX1Cpj2bCwZroVnAg",
+        "contentType": "sticker",
+        "description": "🙈 from Dunem"
+      },
+      {
+        "content": "CAADBAADFAAD5fLwBr7pXr1o3jF3Ag",
+        "contentType": "sticker",
+        "description": "🔝 from HailSatan"
+      },
+      {
+        "content": "CAADAgADAgADlyQZEzvhtA4ssVLBAg",
+        "contentType": "sticker",
+        "description": "😈 from vietnam_flashbacks"
+      },
+      {
+        "content": "CAADAgADYQADNIWFDE-XYYDxorjtAg",
+        "contentType": "sticker",
+        "description": "😠 from Sri01"
+      },
+      {
+        "content": "CAADAgADqAEAAmX_kgrZcgEWrTPlDQI",
+        "contentType": "sticker",
+        "description": "🐼 from CuteRude"
+      },
+      {
+        "content": "CAADBQADDgwAAuG8kQQi7JtB3XyPDQI",
+        "contentType": "sticker",
+        "description": "❌ from Mix101allo"
+      },
+      {
+        "content": "CAADAgADbwIAAgvNDgOKa82LAWH8dAI",
+        "contentType": "sticker",
+        "description": "😭 from OTUScodingOwl"
+      },
+      {
+        "content": "CAADAgADBQADqtJiECBtGkL0yRqEAg",
+        "contentType": "sticker",
+        "description": "🔪 from southpark_kris"
+      },
+      {
+        "content": "CAADBAAD-AAD0N4FAAGtFcdnVVGhxAI",
+        "contentType": "sticker",
+        "description": "😡 from Planet_3"
+      },
+      {
+        "content": "CAADAgADAgADpDmmEuBAooFnBW4nAg",
+        "contentType": "sticker",
+        "description": "😏 from standcat"
+      },
+      {
+        "content": "CAADAgADVAEAAmerbAYwdXJoOlzPewI",
+        "contentType": "sticker",
+        "description": "😨 from captain_JackSparrow"
+      },
+      {
+        "content": "CAADAQADKgUAAv4zBBKQE7148iXKjQI",
+        "contentType": "sticker",
+        "description": "😾 from CWCats"
+      },
+      {
+        "content": "CAADAgADQQADgzJ7E9mryI0MlHNGAg",
+        "contentType": "sticker",
+        "description": "😕 from TheBrothersKolobki"
+      },
+      {
+        "content": "CAADAgADFQADy-cFDeSIgMVRYAyWAg",
+        "contentType": "sticker",
+        "description": "😆 from lastyearsnow"
+      },
+      {
+        "content": "CAADAgADLwADvJAMAAEQZd2tncjxdgI",
+        "contentType": "sticker",
+        "description": "😜 from penciled_sheep"
+      },
+      {
+        "content": "CAADAgADWAIAAlaQ-QlivZv_Mf1ihAI",
+        "contentType": "sticker",
+        "description": "😎 from Stockbuddies"
+      },
+      {
+        "content": "CAADBAAD2QEAApGKZAF2y-hwA_htogI",
+        "contentType": "sticker",
+        "description": "😣 from CaraD"
+      },
+      {
+        "content": "CAADBAAD-wEAAlh5FgUjBys46GQkLAI",
+        "contentType": "sticker",
+        "description": "🐱 from footofru"
+      },
+      {
+        "content": "CAADAgADHAEAAtLdaQXz3Eo7nMeB9gI",
+        "contentType": "sticker",
+        "description": "📖 from Fortrach"
+      },
+      {
+        "content": "CAADAgADawADcffsAQ6xu_RD3GpkAg",
+        "contentType": "sticker",
+        "description": "😈 from CNMHLCS"
+      },
+      {
+        "content": "CAADAgADDQAD6SrlDyrReZunhzqhAg",
+        "contentType": "sticker",
+        "description": "😕 from ValenciaBW"
+      },
+      {
+        "content": "CAADAgADfAAD1U_lBY5eQzNnyxptAg",
+        "contentType": "sticker",
+        "description": "🍷 from uvyparade"
+      },
+      {
+        "content": "CAADAgADmAAD1U_lBRbk9xi1QogHAg",
+        "contentType": "sticker",
+        "description": "😭 from uvyparade"
+      },
+      {
+        "content": "CAADAgADZAADw8aBA70kopGJu7VVAg",
+        "contentType": "sticker",
+        "description": "😰 from garamond1"
+      },
+      {
+        "content": "CAADAgAD8gEAAtY1EgABNRQxFodp0iUC",
+        "contentType": "sticker",
+        "description": "🍾 from rickmortyrus"
+      },
+      {
+        "content": "CAACAgIAAx0CWA8gTQACARtgGHsQXVmFxieOczZ33dUqBiGlOwACJMoAAmOLRgw-POdl4GGDQR4E",
+        "contentType": "sticker",
+        "description": "🙄 from babki_stickers"
+      }
+    ],
+    "strongReply": [
+      {
+        "content": "CAADAgADBQADlyQZE84qjCRXhcIWAg",
+        "contentType": "sticker",
+        "description": "😈 from vietnam_flashbacks"
+      },
+      {
+        "content": "CAADAgADLgADZTyjDRv28XQnMMSlAg",
+        "contentType": "sticker",
+        "description": "😃 from to420"
+      },
+      {
+        "content": "CAADBAADKwADmMX1Ckzc6jcDzKoOAg",
+        "contentType": "sticker",
+        "description": "🍄 from Dunem"
+      },
+      {
+        "content": "CAADAgADLAADNIWFDA74oxz1-kScAg",
+        "contentType": "sticker",
+        "description": "🐺 from Sri01"
+      },
+      {
+        "content": "CAADAgADTwADNIWFDGXYRijhx9H3Ag",
+        "contentType": "sticker",
+        "description": "🚶 from Sri01"
+      },
+      {
+        "content": "CAADAgADXQADNIWFDBLPTLzUlcD6Ag",
+        "contentType": "sticker",
+        "description": "😡 from Sri01"
+      },
+      {
+        "content": "CAADAgADmwEAAmX_kgoH1FNzYkxGhwI",
+        "contentType": "sticker",
+        "description": "🌞 from CuteRude"
+      },
+      {
+        "content": "CAADAQADzQADSkrTESN6khFJscR-Ag",
+        "contentType": "sticker",
+        "description": "👮 from elderscrollsmix"
+      },
+      {
+        "content": "CAADAgADYgIAAgvNDgOKSwGJlM_LBQI",
+        "contentType": "sticker",
+        "description": "😡 from OTUScodingOwl"
+      },
+      {
+        "content": "CAADAgADDwADqtJiEPA-c1QQCeRPAg",
+        "contentType": "sticker",
+        "description": "😬 from southpark_kris"
+      },
+      {
+        "content": "CAADAgADTQAD4bUWDmxLtiGQJHTvAg",
+        "contentType": "sticker",
+        "description": "👉 from friendship_magic"
+      },
+      {
+        "content": "CAADAgAD1wAD4bUWDrE3eO73-5bHAg",
+        "contentType": "sticker",
+        "description": "💕 from friendship_magic"
+      },
+      {
+        "content": "CAADAgADtgAD4bUWDrZ8kzYG_wX5Ag",
+        "contentType": "sticker",
+        "description": "👌 from friendship_magic"
+      },
+      {
+        "content": "CAADAgADnAAD4bUWDuM0iCGn6iBwAg",
+        "contentType": "sticker",
+        "description": "🐔 from friendship_magic"
+      },
+      {
+        "content": "CAADAgADpgAD4bUWDu91CXOIXEXBAg",
+        "contentType": "sticker",
+        "description": "✋️ from friendship_magic"
+      },
+      {
+        "content": "CAADAgADXwAD4bUWDmXrLApw7-SPAg",
+        "contentType": "sticker",
+        "description": "🖕 from friendship_magic"
+      },
+      {
+        "content": "CAADAgADbwAD4bUWDo0S9Zp2U0jIAg",
+        "contentType": "sticker",
+        "description": "🌶 from friendship_magic"
+      },
+      {
+        "content": "CAADBQADyQADLNLtDJcKXbQ_8IhvAg",
+        "contentType": "sticker",
+        "description": "✋️ from Slapping"
+      },
+      {
+        "content": "CAADAQADKQUAAv4zBBKrgog12CnavQI",
+        "contentType": "sticker",
+        "description": "👊 from CWCats"
+      },
+      {
+        "content": "CAADAgADRQEAAk1hHgNiq9-ngHMTegI",
+        "contentType": "sticker",
+        "description": "😕 from devria"
+      },
+      {
+        "content": "CAADAgADFQAD6czZEOHz0Ypt1kURAg",
+        "contentType": "sticker",
+        "description": "👊 from talesdol"
+      },
+      {
+        "content": "CAADAgADBgEAAiSaSQepDeqmZoyExQI",
+        "contentType": "sticker",
+        "description": "😏 from msk2048"
+      },
+      {
+        "content": "CAADAgADTAIAApyyHgI6K5eX2QZLmAI",
+        "contentType": "sticker",
+        "description": "😯 from CyanideAndDepression"
+      },
+      {
+        "content": "CAADBAAD9wEAAlh5FgVteM_PfeZSdgI",
+        "contentType": "sticker",
+        "description": "👉 from footofru"
+      },
+      {
+        "content": "CAADAgADtgADe9OsA4gJM5sCXgj0Ag",
+        "contentType": "sticker",
+        "description": "☹️ from MicrosoftNinjacat"
+      },
+      {
+        "content": "CAADAgADFwEAAtLdaQXeYl54aAbKpgI",
+        "contentType": "sticker",
+        "description": "👊 from Fortrach"
+      },
+      {
+        "content": "CAADAgADHQAD9gKbBOKp2w0flpAoAg",
+        "contentType": "sticker",
+        "description": "😉 from kudago"
+      },
+      {
+        "content": "CAADAgADRAADw8aBA-nSE3YCYmMqAg",
+        "contentType": "sticker",
+        "description": "😡 from garamond1"
+      },
+      {
+        "content": "CAACAgIAAx0CWA8gTQACARlgGHrVS7dl7BIwI0Zm6Oqcmsl2EgACJsoAAmOLRgxq2Z9b1MXrjR4E",
+        "contentType": "sticker",
+        "description": "👻 from babki_stickers"
+      }
+    ],
+    "bonk": [
+      {
+        "content": "CAACAgEAAx0CWA8gTQADB2ATN-EJOlSC5iO2oodjZQdvwSIOAAKWAQACRV8HL9FE_Rrf2B1jHgQ",
+        "contentType": "sticker",
+        "description": "⚾️ from Cheemsburbger"
+      },
+      {
+        "content": "CAACAgEAAx0CWA8gTQADEGATOMUAAd1ghfGaRqCR47Pcv6-8agACggEAAkVfBy9VxDN3JoASPR4E",
+        "contentType": "sticker",
+        "description": "💀 from Cheemsburbger"
+      },
+      {
+        "content": "CAACAgIAAx0CWA8gTQADE2ATO7bLCVqyQvZrEj8frMYqVl-sAAIGAANj77gyIQ410ltCzjceBA",
+        "contentType": "sticker",
+        "description": "😡 from bonkbonkbonk"
+      },
+      {
+        "content": "CAACAgIAAx0CWA8gTQADHWATPDMEj_ciEeqLEifeKTEwB9PdAAIBAANj77gyavs7axPIlIMeBA",
+        "contentType": "sticker",
+        "description": "😡 from bonkbonkbonk"
+      },
+      {
+        "content": "Idź do Horny Jail!",
+        "contentType": "text",
+        "description": "Just PL text"
+      }
+    ]
+  }
+}

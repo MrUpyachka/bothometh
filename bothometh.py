@@ -1,77 +1,107 @@
+import collections
 import json
-import random
-
-import requests
-import telebot
 import logging
+import os.path
+import random
 import sys
+from shutil import copy
 
+import telebot
+from telebot import util as bot_utils
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s', level=logging.INFO)
 
 LOG = logging
 
 
-class BotSettings:
-    def __init__(self, username, developer_username, dev_mode_enabled):
-        self.username = username
-        self.developer_username = developer_username
-        self.dev_mode_enabled = dev_mode_enabled
-        self.mentioned_key = '@' + username
-        self.reply_stickers = []
-        self.fuck_you_stickers = []
-
-
 args = sys.argv
 key = sys.argv[1]
-bot = telebot.TeleBot(key)
+settings_dir = sys.argv[2]
+bot = telebot.TeleBot(key, threaded=False)
 bot_details = bot.get_me()
 LOG.debug('Bot details retrieved: %s', bot_details)
-settings = BotSettings(bot_details.username, 'upyach', False)
+mentioned_key = '@' + bot_details.username
+
+settings_file_path = settings_dir + '/settings.json'
+settings_file_encoding = 'utf-8'
+if not os.path.isdir(settings_dir):
+    os.makedirs(settings_dir)
+if not os.path.isfile(settings_file_path):
+    copy('default_settings.json', settings_file_path)
+with open(settings_file_path, 'r', encoding=settings_file_encoding) as settings_file:
+    settings = json.load(settings_file)
+developer_usernames = settings['developerUsernames']
+
+command_to_reply_map = settings['commandToReplies']
+replies_settings = settings['replies']
+configured_commands = command_to_reply_map.keys()
+
+messages_history_limit = 100
+messages_history = collections.deque([], messages_history_limit)
 
 
-def extract_stickers_set(stickers_config_json, set_name):
-    """Loads sticker ID's for specified set-name from config"""
-    stickers = []
-    for sticker in stickers_config_json[set_name]:
-        stickers.append(sticker['file_id'])
-    return stickers
+def write_settings_to_file():
+    with open(settings_file_path, 'w', encoding=settings_file_encoding) as outfile:
+        json.dump(settings, outfile)
+    LOG.info('Settings file updated.')
 
 
-def update_stickers_set(set_collection, actual_stickers_set):
-    """Resets existing stickers collection and fills it with new stickers"""
-    set_collection.clear()
-    set_collection.extend(actual_stickers_set)
+def select_random(choices):
+    return random.choice(choices)
 
 
-def load_stickers_config():
-    """Loads all stickers sets"""
-    stickers_config = ''.join(open('./stickers.json', 'r', encoding='utf-8').readlines())
-    stickers_config_json = json.loads(stickers_config)
-    update_stickers_set(settings.fuck_you_stickers, extract_stickers_set(stickers_config_json, 'FUCK_YOU_STICKERS'))
-    update_stickers_set(settings.reply_stickers, extract_stickers_set(stickers_config_json, 'JUST_REPLY_STICKERS'))
-    LOG.debug('%d stickers found to fuck someone', len(settings.fuck_you_stickers))
-    LOG.debug('%d stickers found to reply on anything', len(settings.reply_stickers))
+def extract_reply_content(reply):
+    return reply['content']
 
 
-def select_random(*args):
-    """Returns randomly selected argument"""
-    return args[random.randint(0, len(args) - 1)]
+def extract_reply_desc(reply):
+    return reply['description']
+
+
+def is_sticker(reply):
+    return reply['contentType'] == 'sticker'
+
+
+def get_json_with_entities(message):
+    if not hasattr(message, 'json'):
+        return None
+    json_val = message.json
+    if 'entities' not in json_val:
+        return None
+    return json_val
+
+
+def is_direct_message(message):
+    return message.chat.type == 'private'
 
 
 def are_we_mentioned(message):
     """Checks that bot mentioned in specified message"""
-    if not hasattr(message, 'json'):
-        return False
-    json_val = message.json
-    if 'entities' not in json_val:
+    if is_direct_message(message):
+        return True
+    json_val = get_json_with_entities(message)
+    if not json_val:
         return False
     entities = json_val['entities']
-    if entities:
-        for ent in entities:
-            if ent['type'] == 'mention' and settings.mentioned_key in json_val['text']:
-                return True
+    for ent in entities:
+        if ent['type'] == 'mention' and bot_details.username in json_val['text']:
+            return True
     return False
+
+
+def get_mentioned_username(message):
+    json_val = get_json_with_entities(message)
+    if not json_val:
+        return None
+    entities = json_val['entities']
+    for ent in entities:
+        if ent['type'] == 'mention':
+            text = json_val['text']
+            # offset increased to remove @ sign
+            start_position = ent['offset'] + 1
+            mention_length = ent['length']
+            return text[start_position:start_position + mention_length]
+    return None
 
 
 def get_reply_to_message(message):
@@ -101,55 +131,139 @@ def is_replied_to_us(message):
     return False
 
 
-@bot.message_handler(commands=['start', 'help'])
-def send_welcome(message):
-    bot.reply_to(message, "What's up?")
+def save_to_history(message):
+    author = get_message_author_username(message)
+    messages_history.append(message)
+    LOG.debug('%d messages saved. Last author: %s', len(messages_history), author)
 
 
-@bot.message_handler(commands=['toggle_dev_mode'])
+def get_last_message_of(author):
+    history = reversed(messages_history)
+    for message in history:
+        if get_message_author_username(message) == author:
+            return message
+    return None
+
+
+def resolve_send_function(reply):
+    if is_sticker(reply):
+        return bot.send_sticker
+    return bot.send_message
+
+
+def reply_randomly(original_message, message_to_reply, replies_set_ref):
+    target_message = original_message if message_to_reply is None else message_to_reply
+    replies_set = replies_settings[replies_set_ref]
+    if not replies_set:
+        LOG.info("No replies available for %s", replies_set_ref)
+        return
+    reply = select_random(replies_set)
+    content = extract_reply_content(reply)
+    resolve_send_function(reply)(original_message.chat.id, content, reply_to_message_id=target_message.message_id)
+    LOG.info("Replied to %s with '%s' from '%s'",
+             get_message_author_username(target_message),
+             extract_reply_desc(reply),
+             replies_set_ref)
+
+
+def strong_reply(original_message, message_to_reply):
+    reply_randomly(original_message, message_to_reply, 'strongReply')
+
+
+def check_if_message_from_developer(message):
+    return get_message_author_username(message) in developer_usernames
+
+
+def handle_if_message_from_developer(message, handler):
+    if check_if_message_from_developer(message):
+        handler(message)
+    else:
+        bot.reply_to(message, 'You are not my master!')
+        strong_reply(message, message)
+
+
 def toggle_dev_mode(message):
-    settings.dev_mode_enabled = not settings.dev_mode_enabled
-    LOG.info('Dev mode switched by chat command: %s', 'enabled' if settings.dev_mode_enabled else 'disabled')
+    mode = not settings['devModeEnabled']
+    settings['devModeEnabled'] = mode
+    LOG.info('Dev mode switched by chat command: %s', 'enabled' if mode else 'disabled')
+    if mode:
+        bot.reply_to(message, 'Send a sticker - I will provide you its code.')
 
 
-@bot.message_handler(content_types=["sticker"])
-def reply_sticker(message):
-    LOG.debug('Sticker received with message: %s', message)
-    if settings.dev_mode_enabled and get_message_author_username(message) == settings.developer_username:
-        stk = message.sticker
-        bot.reply_to(message, '{"file_id":"' + stk.file_id + '", "description":"'
-                     + stk.emoji + ' from ' + stk.set_name + '"},')
+def toggle_reactions(message):
+    mode = not settings['simpleReplyEnabled']
+    settings['simpleReplyEnabled'] = mode
+    settings['strongReplyEnabled'] = mode
+    LOG.info('Reactions mode switched by chat command: %s', 'enabled' if mode else 'disabled')
 
 
-@bot.message_handler(content_types=["text"])
-def reply_mention(message):
+def is_simple_reply_allowed():
+    return settings['simpleReplyEnabled']
+
+
+def is_strong_reply_allowed():
+    return settings['strongReplyEnabled']
+
+
+def is_dev_mode_enabled():
+    return settings['devModeEnabled']
+
+
+def reply_if_mentioned(message):
     replied_to_us = is_replied_to_us(message)
     mentioned = are_we_mentioned(message)
+    LOG.debug('Handling: replied_to_us=%s, mentioned=%s', replied_to_us, mentioned)
     if not replied_to_us and not mentioned:
         LOG.debug('Message ignored: %s', message)
         return  # not our business
-    if not replied_to_us and mentioned:
+    if is_strong_reply_allowed() and mentioned:
         msg_to_reply = get_reply_to_message(message)
-        bot.send_sticker(message.chat.id, select_random(*settings.fuck_you_stickers),
-                         message.message_id if msg_to_reply is None else msg_to_reply.message_id)
+        strong_reply(message, msg_to_reply if msg_to_reply else message)
         return
-    # just random response otherwise
-    random_tuple = select_random(
-        # (bot.send_message, reply),  # send random text reply
-        (bot.send_sticker, settings.reply_stickers))  # send random sticker from set
-    random_tuple[0](message.chat.id, select_random(*random_tuple[1]), message.message_id)
+    if is_simple_reply_allowed() and replied_to_us:
+        reply_randomly(message, message, 'simpleReply')
 
 
-load_stickers_config()
+@bot.message_handler(commands=['start', 'help'])
+def send_welcome(message):
+    bot.reply_to(message, "What's up? Check 'https://github.com/MrUpyachka/bothometh'")
 
-while True:
-    try:
-        LOG.info('Updates polling started...')
-        bot.polling()
-        LOG.info('Interrupted by user or system.')
-        break
-    except requests.exceptions.ReadTimeout:
-        LOG.info('Read time-out exception. Try again...')
-    except Exception as e:
-        LOG.error('Unknown exception: %s', e)
-        break
+
+@bot.message_handler(commands=['toggle_dev_mode'])
+def toggle_dev_mode_on_command(message):
+    handle_if_message_from_developer(message, toggle_dev_mode)
+
+
+@bot.message_handler(commands=['toggle_reactions'])
+def toggle_reactions_on_command(message):
+    handle_if_message_from_developer(message, toggle_reactions)
+
+
+@bot.message_handler(commands=['save'])
+def trigger_settings_save(message):
+    handle_if_message_from_developer(message, lambda m: write_settings_to_file())
+
+
+@bot.message_handler(func=lambda m: True, content_types=bot_utils.content_type_media)
+def fallback_handler(message):
+    command = bot_utils.extract_command(message.text)
+    if not command:
+        save_to_history(message)
+    if command and command in configured_commands:
+        author = get_mentioned_username(message)
+        LOG.info("Processing command '%s' from %s", command, author)
+        last_message = get_last_message_of(author)
+        reply_randomly(message, last_message, command_to_reply_map[command])
+        return
+    if message.content_type == 'sticker' \
+            and is_dev_mode_enabled() \
+            and is_direct_message(message):
+        # print sticker details to be added to config json
+        sticker = message.sticker
+        bot.reply_to(message, '{"content":"' + sticker.file_id + '", "description":"'
+                     + sticker.emoji + ' from ' + sticker.set_name + '"},')
+        return
+    reply_if_mentioned(message)
+
+
+bot.infinity_polling()
