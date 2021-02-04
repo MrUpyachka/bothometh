@@ -9,7 +9,7 @@ from shutil import copy
 import telebot
 from telebot import util as bot_utils
 
-logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s', level=logging.INFO)
+logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s', level=logging.DEBUG)
 
 LOG = logging
 
@@ -137,11 +137,13 @@ def save_to_history(message):
     LOG.debug('%d messages saved. Last author: %s', len(messages_history), author)
 
 
-def get_last_message_of(author):
+def get_last_message_of(author, chat):
     history = reversed(messages_history)
     for message in history:
-        if get_message_author_username(message) == author:
+        if get_message_author_username(message) == author and message.chat.id == chat.id:
+            LOG.debug('Found a message from %s in history of chat %s (%s)', author, chat.id, chat.title)
             return message
+    LOG.debug('No messages found in history from %s in chat %s (%s)', author, chat.id, chat.title)
     return None
 
 
@@ -244,16 +246,25 @@ def trigger_settings_save(message):
     handle_if_message_from_developer(message, lambda m: write_settings_to_file())
 
 
+def resolve_command_target_message(message):
+    msg_to_reply = get_reply_to_message(message)
+    if msg_to_reply:
+        return msg_to_reply
+    target_user = get_mentioned_username(message)
+    if target_user:
+        return get_last_message_of(target_user, message.chat)
+    return message
+
+
 @bot.message_handler(func=lambda m: True, content_types=bot_utils.content_type_media)
 def fallback_handler(message):
     command = bot_utils.extract_command(message.text)
     if not command:
         save_to_history(message)
     if command and command in configured_commands:
-        author = get_mentioned_username(message)
-        LOG.info("Processing command '%s' from %s", command, author)
-        last_message = get_last_message_of(author)
-        reply_randomly(message, last_message, command_to_reply_map[command])
+        LOG.info("Processing command '%s' from %s", command, get_message_author_username(message))
+        target_message = resolve_command_target_message(message)
+        reply_randomly(message, target_message, command_to_reply_map[command])
         return
     if message.content_type == 'sticker' \
             and is_dev_mode_enabled() \
