@@ -13,7 +13,6 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s', level=log
 
 LOG = logging
 
-
 args = sys.argv
 key = sys.argv[1]
 settings_dir = sys.argv[2]
@@ -38,6 +37,9 @@ configured_commands = command_to_reply_map.keys()
 
 messages_history_limit = 100
 messages_history = collections.deque([], messages_history_limit)
+
+admin_check_history_limit = 100
+admin_check_history = {}
 
 
 def write_settings_to_file():
@@ -137,6 +139,28 @@ def save_to_history(message):
     LOG.debug('%d messages saved. Last author: %s', len(messages_history), author)
 
 
+def save_admin_check_result(chat_id, status):
+    if len(admin_check_history) >= admin_check_history_limit:
+        LOG.debug('Admin check cache size exceeded, cleanup forced')
+        admin_check_history.clear()
+    admin_check_history[chat_id] = status
+    LOG.debug('Admin check cache updated: chat_id=%s, status=%s, cache_size=%d',
+              chat_id, status, len(admin_check_history))
+
+
+def extract_username(administrator):
+    return administrator.user.username
+
+
+def is_administrator(chat):
+    chat_id = chat.id
+    if chat_id in admin_check_history:
+        return admin_check_history[chat_id]
+    chat_admins = bot.get_chat_administrators(chat_id)
+    admins_usernames = map(extract_username, chat_admins)
+    save_admin_check_result(chat_id, bot_details.username in admins_usernames)
+
+
 def get_last_message_of(author, chat):
     history = reversed(messages_history)
     for message in history:
@@ -153,23 +177,23 @@ def resolve_send_function(reply):
     return bot.send_message
 
 
-def reply_randomly(original_message, message_to_reply, replies_set_ref):
-    target_message = original_message if message_to_reply is None else message_to_reply
+def reply_randomly(chat, message_to_reply, replies_set_ref):
+    target_message_id = message_to_reply.id if message_to_reply else None
     replies_set = replies_settings[replies_set_ref]
     if not replies_set:
         LOG.info("No replies available for %s", replies_set_ref)
         return
     reply = select_random(replies_set)
     content = extract_reply_content(reply)
-    resolve_send_function(reply)(original_message.chat.id, content, reply_to_message_id=target_message.message_id)
+    resolve_send_function(reply)(chat.id, content, reply_to_message_id=target_message_id)
     LOG.info("Replied to %s with '%s' from '%s'",
-             get_message_author_username(target_message),
+             get_message_author_username(message_to_reply) if message_to_reply else chat.title,
              extract_reply_desc(reply),
              replies_set_ref)
 
 
 def strong_reply(original_message, message_to_reply):
-    reply_randomly(original_message, message_to_reply, 'strongReply')
+    reply_randomly(original_message.chat, message_to_reply, 'strongReply')
 
 
 def check_if_message_from_developer(message):
@@ -223,7 +247,7 @@ def reply_if_mentioned(message):
         strong_reply(message, msg_to_reply if msg_to_reply else message)
         return
     if is_simple_reply_allowed() and replied_to_us:
-        reply_randomly(message, message, 'simpleReply')
+        reply_randomly(message.chat, message, 'simpleReply')
 
 
 @bot.message_handler(commands=['start', 'help'])
@@ -246,14 +270,30 @@ def trigger_settings_save(message):
     handle_if_message_from_developer(message, lambda m: write_settings_to_file())
 
 
+def mention_user(chat, username):
+    return bot.send_message(chat.id, '@' + username)
+
+
 def resolve_command_target_message(message):
     msg_to_reply = get_reply_to_message(message)
     if msg_to_reply:
         return msg_to_reply
     target_user = get_mentioned_username(message)
     if target_user:
-        return get_last_message_of(target_user, message.chat)
+        target_user_message = get_last_message_of(target_user, message.chat)
+        if not target_user_message:
+            mention_user(message.chat, target_user)
+            return None
+        return target_user_message
     return message
+
+
+def handle_user_command(command, message):
+    LOG.info("Processing command '%s' from %s", command, get_message_author_username(message))
+    target_message = resolve_command_target_message(message)
+    reply_randomly(message.chat, target_message, command_to_reply_map[command])
+    if target_message != message and is_administrator(message.chat):
+        bot.delete_message(message.chat.id, message.message_id)
 
 
 @bot.message_handler(func=lambda m: True, content_types=bot_utils.content_type_media)
@@ -262,9 +302,7 @@ def fallback_handler(message):
     if not command:
         save_to_history(message)
     if command and command in configured_commands:
-        LOG.info("Processing command '%s' from %s", command, get_message_author_username(message))
-        target_message = resolve_command_target_message(message)
-        reply_randomly(message, target_message, command_to_reply_map[command])
+        handle_user_command(command, message)
         return
     if message.content_type == 'sticker' \
             and is_dev_mode_enabled() \
