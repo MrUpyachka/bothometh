@@ -73,13 +73,13 @@ def get_json_with_entities(message):
     return json_val
 
 
-def is_direct_message(message):
-    return message.chat.type == 'private'
+def is_private(chat):
+    return chat.type == 'private'
 
 
 def are_we_mentioned(message):
     """Checks that bot mentioned in specified message"""
-    if is_direct_message(message):
+    if is_private(message.chat):
         return True
     json_val = get_json_with_entities(message)
     if not json_val:
@@ -148,17 +148,17 @@ def save_admin_check_result(chat_id, status):
               chat_id, status, len(admin_check_history))
 
 
-def extract_username(administrator):
-    return administrator.user.username
-
-
 def is_administrator(chat):
+    if is_private(chat):
+        return False
     chat_id = chat.id
     if chat_id in admin_check_history:
         return admin_check_history[chat_id]
     chat_admins = bot.get_chat_administrators(chat_id)
-    admins_usernames = map(extract_username, chat_admins)
-    save_admin_check_result(chat_id, bot_details.username in admins_usernames)
+    admins_usernames = map(lambda r: r.user.username, chat_admins)
+    admin_check_status = bot_details.username in admins_usernames
+    save_admin_check_result(chat_id, admin_check_status)
+    return admin_check_status
 
 
 def get_last_message_of(author, chat):
@@ -306,7 +306,7 @@ def fallback_handler(message):
         return
     if message.content_type == 'sticker' \
             and is_dev_mode_enabled() \
-            and is_direct_message(message):
+            and is_private(message.chat):
         # print sticker details to be added to config json
         sticker = message.sticker
         bot.reply_to(message, '{"content":"' + sticker.file_id + '"", "contentType":"sticker", "description":"'
