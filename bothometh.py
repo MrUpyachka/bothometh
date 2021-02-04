@@ -271,7 +271,7 @@ def fallback_handler(message):
             and is_direct_message(message):
         # print sticker details to be added to config json
         sticker = message.sticker
-        bot.reply_to(message, '{"content":"' + sticker.file_id + '", "description":"'
+        bot.reply_to(message, '{"content":"' + sticker.file_id + '"", "contentType":"sticker", "description":"'
                      + sticker.emoji + ' from ' + sticker.set_name + '"},')
         return
     reply_if_mentioned(message)

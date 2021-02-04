@@ -18,40 +18,49 @@
     "excuse": [
       {
         "content": "CAACAgIAAxkBAAICnGAcNxDQ_3b8bzcrxZfJ1tI0bk5PAAKKAAMrTgMCh-eeYYpVYZEeBA",
+        "contentType": "sticker",
         "description": "😕 from tygde"
       },
       {
         "content": "CAACAgIAAxkBAAICnmAcNyaEwNkOwhsvGmD8DzL__0wpAAJ9AAMrTgMCMXafNCaWA-seBA",
+        "contentType": "sticker",
         "description": "🛀 from tygde"
       }
     ],
     "simpleReply": [
       {
         "content": "CAACAgIAAxkBAAICVGAcMjDNU7X6Xh6Oj9g33SG_oOdLAAMFAAIUlz4DDXnzUP1ljy4eBA",
+        "contentType": "sticker",
         "description": "🤔 from golub_vladimir"
       },
       {
         "content": "CAACAgIAAxkBAAICpGAcODZ-i9GvsifxcWr11W67fZkxAAISAAOkOaYS0N0jRfZp6dUeBA",
+        "contentType": "sticker",
         "description": "🚜 from standcat"
       },
       {
         "content": "CAACAgIAAxkBAAICWmAcMrHL16CNj8ya1sSmTvi-d_DNAAIvAgACusCVBcIH4zCxGwpQHgQ",
+        "contentType": "sticker",
         "description": "😠 from Whoniverse"
       },
       {
         "content": "CAACAgIAAxkBAAICjmAcNfkDVnwLDxpEIlbV0n07LOgTAALiAgACoqx0DM8UzjON5EQDHgQ",
+        "contentType": "sticker",
         "description": "🤠 from BadPugs"
       },
       {
         "content": "CAACAgIAAxkBAAICTmAcMaYG9cSyvJyixQlRbFSCRb-nAAIyYgIAAWOLRgy0sYjilijy0R4E",
+        "contentType": "sticker",
         "description": "😁 from crednevekove"
       },
       {
         "content": "CAACAgIAAxkBAAICkGAcNif_EL1uHn3WQN5TrXvy0yUPAALzBgACfAUHG9AU5L6iapy_HgQ",
+        "contentType": "sticker",
         "description": "😜 from Mr_Pickles_eeZee"
       },
       {
         "content": "CAACAgIAAxkBAAICeGAcNEqJV4KuHLrWQfy0os9Z9z2NAAIKWAACns4LAAHPLxKfNWgzRx4E",
+        "contentType": "sticker",
         "description": "👌 from gifki"
       },
       {
@@ -183,34 +192,42 @@
     "strongReply": [
       {
         "content": "CAACAgIAAxkBAAICUmAcMfBlOYT4Fi-2pO2vCqwHfZ3xAAIvAgACJp_OBoQI9_zKIYMeHgQ",
+        "contentType": "sticker",
         "description": "😃 from doctor_diy"
       },
       {
         "content": "CAACAgEAAxkBAAICoGAcNz5hqGxkMUK_nng80DBJpJPWAAKkAQACSkrTETA4cJmgVsqaHgQ",
+        "contentType": "sticker",
         "description": "🖐 from elderscrollsmix"
       },
       {
         "content": "CAACAgIAAxkBAAICbmAcM9Tnp7WumFuqu2Gd0DGrrAJoAAKlAAM_NfIEB2q2KBFgnEweBA",
+        "contentType": "sticker",
         "description": "🤔 from achievement_unlock"
       },
       {
         "content": "CAACAgIAAxkBAAICmmAcNraCeGOm9FYb68JmQF0jdokiAAKoAQACZf-SCtlyARatM-UNHgQ",
+        "contentType": "sticker",
         "description": "🐼 from CuteRude"
       },
       {
         "content": "CAACAgIAAxkBAAIClGAcNlnVwW-yH2uU_qNdlVCokcONAALCAQACQTugFcWccPnpKfYiHgQ",
+        "contentType": "sticker",
         "description": "🙀 from RegimeON"
       },
       {
         "content": "CAACAgIAAxkBAAICdmAcNCdawxAqLH-VYqna7zTvXmEKAALyAQACsPvbB6j3_0Gnoo3HHgQ",
+        "contentType": "sticker",
         "description": "👻 from PushTheTempo"
       },
       {
         "content": "CAACAgQAAxkBAAICXGAcMsuEgNhZhxI2jO9tIZv4sGUtAAJAAAMv3_gJCv1_CxwiQiceBA",
+        "contentType": "sticker",
         "description": "😠 from blyadopapug"
       },
       {
         "content": "CAACAgQAAxkBAAICXmAcMugMNsuylVaGEJn8k5qWDC1dAAJCAAMv3_gJMByVvpj-YEEeBA",
+        "contentType": "sticker",
         "description": "🥴 from blyadopapug"
       },
       {
@@ -367,6 +384,7 @@
       },
       {
         "content": "CAACAgIAAxkBAAICgmAcNV-nqRd9jldhF0KEMaQEXPQgAALAAAPk68YGSJkMdapc_OIeBA",
+        "contentType": "sticker",
         "description": "🔨 from bo_shop"
       },
       {
@@ -415,78 +433,97 @@
     "sympathy": [
       {
         "content": "CAACAgIAAxkBAAICUGAcMcnJeCPlgJxUcj_DDsLt1_DcAAI0YgIAAWOLRgxTDL9S3I8_MR4E",
+        "contentType": "sticker",
         "description": "😗 from crednevekove"
       },
       {
         "content": "CAACAgIAAxkBAAICqmAcONjqx9LyRxVXuPdgcZRYJrFmAAIgAAMnBUEHvkqkTl4caC8eBA",
+        "contentType": "sticker",
         "description": "😓 from clasArt"
       },
       {
         "content": "CAACAgIAAxkBAAICfmAcNSVvqYQ71gABhZGETtU-jchyuAACSQMAAoVUjAABZKbiqmeYy9IeBA",
+        "contentType": "sticker",
         "description": "😹 from ptsthehareharehare"
       },
       {
         "content": "CAACAgIAAxkBAAICkmAcNkEuLTloDX75RbvmxA1hOR7xAAKlAQACQTugFbUHyZVuJiArHgQ",
+        "contentType": "sticker",
         "description": "🍷 from RegimeON"
       },
       {
         "content": "CAACAgIAAxkBAAICrGAcOUlSVC1Fb7g9J_tzA7zCf0MfAAIfAwAC73cHAAEiqTd0SiIJtR4E",
+        "contentType": "sticker",
         "description": "🍺 from treasure_isl"
       },
       {
         "content": "CAACAgIAAxkBAAICrmAcOfz9Cmsgg7Wrtd8mgDwJDE60AAL2BwAC-gu2CF7SvK19MD2xHgQ",
+        "contentType": "sticker",
         "description": "😞 from Svobodny"
       },
       {
         "content": "CAACAgIAAxkBAAIComAcN7WtDKmhXKFNuo4dcMzx0E9CAAKDAAPhtRYO48oc8d7OTi4eBA",
+        "contentType": "sticker",
         "description": "😱 from friendship_magic"
       },
       {
         "content": "CAACAgQAAxkBAAICmGAcNpXesmB_P6CAsrupc6Ragb4aAAIzAAOYxfUK61PmtdRKU3IeBA",
+        "contentType": "sticker",
         "description": "🍋 from Dunem"
       },
       {
         "content": "CAACAgIAAxkBAAICemAcNHiiY09OyR6ISNT28Wkchi-wAAKBAAN75_cGQtoeBRyTGMUeBA",
+        "contentType": "sticker",
         "description": "😨 from money_ya"
       },
       {
         "content": "CAACAgIAAxkBAAICfGAcNOAcNRxLg6XIrAAB9XwwdMEbxQACXAIAAoBrIwbt7f6G7FZBQB4E",
+        "contentType": "sticker",
         "description": "👋 from aurapusheen"
       },
       {
         "content": "CAACAgIAAxkBAAICWGAcMqJIjsLBdEPAC_U_keZ16Os1AAIrAAOrw2QQZaHJ7VU58EEeBA",
+        "contentType": "sticker",
         "description": "👌 from Pigeonandphilosophy"
       },
       {
         "content": "CAACAgIAAxkBAAICVmAcMlNZH9wR9MZOdtlYGcQwMn6MAAIkAAOrw2QQL1g6tIUw7rceBA",
+        "contentType": "sticker",
         "description": "💪 from Pigeonandphilosophy"
       },
       {
         "content": "CAACAgQAAxkBAAICYGAcMwGeTdMoJtF3UguLIFNvKD4IAAKLAAMv3_gJV5HSf4Np_p8eBA",
+        "contentType": "sticker",
         "description": "😫 from blyadopapug"
       },
       {
         "content": "CAACAgQAAxkBAAICYmAcMw_oM6EBeQY2pI4asCeWZYFDAAJ_AAMv3_gJIrtd8r0KcfoeBA",
+        "contentType": "sticker",
         "description": "🙄 from blyadopapug"
       },
       {
         "content": "CAACAgQAAxkBAAICZmAcMzIhlt7xmW0_p6Qqd7qvw4pfAAJ5AAMv3_gJsMzRvac0VIkeBA",
+        "contentType": "sticker",
         "description": "🤕 from blyadopapug"
       },
       {
         "content": "CAACAgQAAxkBAAICaGAcM01SeigDjFbqC9WgcSTIrw2KAAJmAAMv3_gJR2zzpirpuYkeBA",
+        "contentType": "sticker",
         "description": "💀 from blyadopapug"
       },
       {
         "content": "CAACAgIAAxkBAAICamAcM4RNR6HJZVGIZw4xIpjxrbSHAALaAANBqK4GrgAB2d88nL9vHgQ",
+        "contentType": "sticker",
         "description": "😳 from plasticovayazhizn"
       },
       {
         "content": "CAACAgIAAxkBAAICbGAcM6hu29OkY-fDtzUS5KyTS7EFAAK8BwACQaiuBi7HltknfERsHgQ",
+        "contentType": "sticker",
         "description": "🙂 from plasticovayazhizn"
       },
       {
         "content": "CAACAgIAAxkBAAICdGAcM_5JQD-33-IaMrkBj7BAekVVAAKKAAM_NfIEblZE1rVhn74eBA",
+        "contentType": "sticker",
         "description": "⁉️ from Everyone_stickers"
       }
     ]
