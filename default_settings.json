@@ -9,7 +9,8 @@
   "commandToReplies": {
     "bonk": "bonk",
     "report_horny": "bonk",
-    "aggress": "strongReply"
+    "aggress": "strongReply",
+    "report_bayan": "bayan"
   },
   "replies": {
     "simpleReply": [
@@ -316,6 +317,28 @@
         "content": "Idź do Horny Jail!",
         "contentType": "text",
         "description": "Just PL text"
+      }
+    ],
+    "bayan": [
+      {
+        "content": "CAACAgIAAxkBAAIB9WAb1PaEWfwjIp52rskLBJjr6WBEAAK8AQADOKAKzCJ2wnaqpzEeBA",
+        "contentType": "sticker",
+        "description": "🎼 from Vlad_Len"
+      },
+      {
+        "content": "Уже было",
+        "contentType": "text",
+        "description": "Has been already"
+      },
+      {
+        "content": "Повтор",
+        "contentType": "text",
+        "description": "Repetition"
+      },
+      {
+        "content": "Где-то в Кракове есть качалка, в которой приседали ещё деды в PRL. Так вот, однажды качки решили делать ремонт, начали снимать обои со стен, а там несколько слоёв. Дошли даже до шёлковых обоев XVIII века - оказалось, в этом помещении тогда был домик прислуги князя Станислава Понятковского. И уже под этими обоями Gazeta Warszawska, где в разделе смешных историй был напечатан этот баян!",
+        "contentType": "text",
+        "description": "Le Grand Accordéon"
       }
     ]
   }
