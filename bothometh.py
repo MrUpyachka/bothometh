@@ -9,7 +9,7 @@ from shutil import copy
 import telebot
 from telebot import util as bot_utils
 
-logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s', level=logging.DEBUG)
+logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s', level=logging.INFO)
 
 LOG = logging
 
