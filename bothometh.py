@@ -59,7 +59,7 @@ def get_recently_used_replies_ids(replies_set_ref):
     if replies_set_ref not in replies_settings:
         LOG.debug("Unable to get replies usage history for '%s'", replies_set_ref)
         return None
-    replies_set_history = collections.deque([], int(len(replies_settings[replies_set_ref]) * 0.6))
+    replies_set_history = collections.deque([], calculate_replies_history_size(replies_settings[replies_set_ref]))
     replies_history[replies_set_ref] = replies_set_history
     return replies_set_history
 
