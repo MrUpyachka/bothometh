@@ -41,6 +41,23 @@ messages_history = collections.deque([], messages_history_limit)
 admin_check_history_limit = 100
 admin_check_history = {}
 
+replies_history = {}
+
+
+def get_recently_used_replies_ids(replies_set_ref):
+    if replies_set_ref in replies_history:
+        return replies_history[replies_set_ref]
+    if replies_set_ref not in replies_settings:
+        LOG.debug("Unable to get replies usage history for '%s'", replies_set_ref)
+        return None
+    replies_set_history = collections.deque([], int(len(replies_settings[replies_set_ref]) * 0.6))
+    replies_history[replies_set_ref] = replies_set_history
+    return replies_set_history
+
+
+def update_recently_used_replies(replies_set_ref, reply):
+    get_recently_used_replies_ids(replies_set_ref).append(reply['id'])
+
 
 def write_settings_to_file():
     with open(settings_file_path, 'w', encoding=settings_file_encoding) as outfile:
@@ -177,15 +194,28 @@ def resolve_send_function(reply):
     return bot.send_message
 
 
-def reply_randomly(chat, message_to_reply, replies_set_ref):
-    target_message_id = message_to_reply.id if message_to_reply else None
+def select_not_recently_used(replies_set_ref):
     replies_set = replies_settings[replies_set_ref]
     if not replies_set:
         LOG.info("No replies available for %s", replies_set_ref)
+        return None
+    recently_used_replies = get_recently_used_replies_ids(replies_set_ref)
+    available_replies = list(filter(lambda r: r['id'] not in recently_used_replies, replies_set))
+    if not available_replies:
+        LOG.info("All replies are in list of recently used for '%s'", replies_set_ref)
+        return None
+    return select_random(available_replies)
+
+
+def reply_randomly(chat, message_to_reply, replies_set_ref):
+    target_message_id = message_to_reply.id if message_to_reply else None
+    reply = select_not_recently_used(replies_set_ref)
+    if not reply:
+        LOG.info("Unable to select reply for '%s'", replies_set_ref)
         return
-    reply = select_random(replies_set)
     content = extract_reply_content(reply)
     resolve_send_function(reply)(chat.id, content, reply_to_message_id=target_message_id)
+    update_recently_used_replies(replies_set_ref, reply)
     LOG.info("Replied to %s with '%s' from '%s'",
              get_message_author_username(message_to_reply) if message_to_reply else chat.title,
              extract_reply_desc(reply),
@@ -296,6 +326,13 @@ def handle_user_command(command, message):
         bot.delete_message(message.chat.id, message.message_id)
 
 
+def update_replies_with_generated_ids():
+    for replies_set_ref in replies_settings:
+        for reply in replies_settings[replies_set_ref]:
+            if 'id' not in reply:
+                reply['id'] = hash(extract_reply_content(reply))
+
+
 @bot.message_handler(func=lambda m: True, content_types=bot_utils.content_type_media)
 def fallback_handler(message):
     command = bot_utils.extract_command(message.text)
@@ -315,4 +352,5 @@ def fallback_handler(message):
     reply_if_mentioned(message)
 
 
+update_replies_with_generated_ids()
 bot.infinity_polling()
