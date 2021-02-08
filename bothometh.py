@@ -44,6 +44,15 @@ admin_check_history = {}
 replies_history = {}
 
 
+def calculate_replies_history_size(replies_set_ref):
+    replies_number = len(replies_settings[replies_set_ref])
+    percentage = int(replies_number * 0.6)
+    if (replies_number - percentage) < 2:
+        # to avoid cycling between two replies
+        return 0
+    return percentage
+
+
 def get_recently_used_replies_ids(replies_set_ref):
     if replies_set_ref in replies_history:
         return replies_history[replies_set_ref]
