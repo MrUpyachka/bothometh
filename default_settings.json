@@ -12,7 +12,10 @@
     "aggress": "strongReply",
     "report_bayan": "bayan",
     "pity": "sympathy",
-    "excuse": "excuse"
+    "excuse": "excuse",
+    "pills": "doctor",
+    "hello": "hello",
+    "friday": "party"
   },
   "replies": {
     "excuse": [
@@ -190,6 +193,21 @@
       }
     ],
     "strongReply": [
+      {
+        "content": "CAACAgIAAxkBAAID3WA4FBIeFVZcNscaTt16WKMluaDWAAKMAAN2yegFhLT1Jk2R2lQeBA",
+        "contentType": "sticker",
+        "description": "💩 from wildmorrowind"
+      },
+      {
+        "content": "CAACAgIAAxkBAAID22A4FAsE9cj1On-mJNgKXeBArE2yAAKOAAN2yegF7y_1aKzsBuMeBA",
+        "contentType": "sticker",
+        "description": "😡 from wildmorrowind"
+      },
+      {
+        "content": "CAACAgIAAxkBAAID32A4FCVyYyFFDaoi9v_NeNQ3Pb9SAAK3AAN2yegFaA9cB1-XuVgeBA",
+        "contentType": "sticker",
+        "description": "☠️ from wildmorrowind"
+      },
       {
         "content": "CAACAgIAAxkBAAICUmAcMfBlOYT4Fi-2pO2vCqwHfZ3xAAIvAgACJp_OBoQI9_zKIYMeHgQ",
         "contentType": "sticker",
@@ -378,6 +396,11 @@
     ],
     "bonk": [
       {
+        "content": "CAACAgIAAxkBAAIEB2A4JSWqBqJaSGQRUcc4pKdsHqtcAAL5CwAC3xPBST60b0oV3syhHgQ",
+        "contentType": "sticker",
+        "description": "⚾️ from bonk_yar_golu"
+      },
+      {
         "content": "CAACAgEAAx0CWA8gTQADB2ATN-EJOlSC5iO2oodjZQdvwSIOAAKWAQACRV8HL9FE_Rrf2B1jHgQ",
         "contentType": "sticker",
         "description": "⚾️ from Cheemsburbger"
@@ -525,6 +548,132 @@
         "content": "CAACAgIAAxkBAAICdGAcM_5JQD-33-IaMrkBj7BAekVVAAKKAAM_NfIEblZE1rVhn74eBA",
         "contentType": "sticker",
         "description": "⁉️ from Everyone_stickers"
+      }
+    ],
+    "doctor": [
+      {
+        "content": "CAACAgIAAxkBAAIDz2A4EE4tdmCdQWyJDhLM8wKCZXDFAAICAAP0jtwTpjHk1v9ca6YeBA",
+        "contentType": "sticker",
+        "description": "😉 from doctor_Pilulia"
+      },
+      {
+        "content": "CAACAgIAAxkBAAID0WA4EFGm1Ux6DOiKwUKAjQ-iXdAKAAIBAAP0jtwTscOJBasgu_geBA",
+        "contentType": "sticker",
+        "description": "😐 from doctor_Pilulia"
+      },
+      {
+        "content": "CAACAgIAAxkBAAID02A4EFXQ7TBb4l91u_0eVL7sQ5yDAAIDAAP0jtwTyZdEDpAWu1YeBA",
+        "contentType": "sticker",
+        "description": "😄 from doctor_Pilulia"
+      },
+      {
+        "content": "CAACAgIAAxkBAAID1WA4EYJXXITtbulD6PcGn7QPgktWAAIMAANYHCc-2MubNZhfAAHTHgQ",
+        "contentType": "sticker",
+        "description": "😏 from DoctorDIY_v2"
+      },
+      {
+        "content": "CAACAgIAAxkBAAID12A4EZD-52aSn2LV85NzKASzut9UAAIPAANYHCc-1-uctgRJUYgeBA",
+        "contentType": "sticker",
+        "description": "😐 from DoctorDIY_v2"
+      },
+      {
+        "content": "CAACAgQAAxkBAAID2WA4Ejm3M2cauOs-vTLzGJzBJ3WSAAK8BgACeZO7CQesXZpjUvk0HgQ",
+        "contentType": "sticker",
+        "description": "💊 from Lekarstva"
+      }
+    ],
+    "hello": [
+      {
+        "content": "CAACAgQAAxkBAAID6WA4Fk03vu3m0lGyAl4ajjvs61byAAJIAAMv3_gJl7IsvCjAtjgeBA",
+        "contentType": "sticker",
+        "description": "🙋‍♀️ from blyadopapug"
+      },
+      {
+        "content": "CAACAgIAAxkBAAID52A4FSpHBERvwZo61t0BgIq3GC_OAAIQAAPQSPIaHW7_rdhTNOgeBA",
+        "contentType": "sticker",
+        "description": "🖐 from TheElderScrollsLF"
+      },
+      {
+        "content": "CAACAgIAAxkBAAID5WA4FSk0w08KR652qZ4GtucoDkV6AAITAAPQSPIa8fYDV-7zI0seBA",
+        "contentType": "sticker",
+        "description": "🤝 from TheElderScrollsLF"
+      },
+      {
+        "content": "CAACAgIAAxkBAAID4WA4FK4K0nZuksXk6SReiheBpJhKAAJ-AAN2yegFE54QE-W2_ykeBA",
+        "contentType": "sticker",
+        "description": "👋 from wildmorrowind"
+      },
+      {
+        "content": "CAACAgIAAxkBAAID42A4FOa4KzP_6Z85mIoBgMRPdTF9AAKVAAN2yegFcaC9HLIEMt8eBA",
+        "contentType": "sticker",
+        "description": "💩 from wildmorrowind"
+      }
+    ],
+    "friday": [
+      {
+        "content": "CAACAgIAAxkBAAID-2A4F8svIV7dt1yGfyviemZGsKRTAAKlAQACQTugFbUHyZVuJiArHgQ",
+        "contentType": "sticker",
+        "description": "🍷 from RegimeON"
+      },
+      {
+        "content": "CAACAgIAAxkBAAID_WA4F90i20Wz7rp1ZPItOlrDcnN6AAKnAQACQTugFccjYydig59IHgQ",
+        "contentType": "sticker",
+        "description": "🥃 from RegimeON"
+      },
+      {
+        "content": "CAACAgIAAxkBAAID_2A4F-3lG9LHwHuIPHcmZIgIoB8rAAKrAAO4ZzEP3Cw1MMATAkIeBA",
+        "contentType": "sticker",
+        "description": "🍾 from ComicAnimals"
+      },
+      {
+        "content": "CAACAgIAAxkBAAIEAWA4F_HK4SfcmTtd5FrSIziicnAPAALyAQAC1jUSAAE1FDEWh2nSJR4E",
+        "contentType": "sticker",
+        "description": "🍾 from rickmortyrus"
+      },
+      {
+        "content": "CAACAgIAAxkBAAIEA2A4F_fUbe6EQtr_3dTWlTPWSAJRAAJwAAPww8AO8juwpmexGeceBA",
+        "contentType": "sticker",
+        "description": "🤔 from Otbitye"
+      },
+      {
+        "content": "CAACAgIAAxkBAAIEBWA4F_rsHse1OKmvXKIC0G6FzehnAAKWAANZAwMAAQ9UcU_fSqxrHgQ",
+        "contentType": "sticker",
+        "description": "🍾 from the_most_valuable_sticker_pack"
+      },
+      {
+        "content": "CAACAgQAAxkBAAID62A4Fqs4-goBzTazo_3mMnpwGP97AAIFAAOYxfUKFRC_r98hdCceBA",
+        "contentType": "sticker",
+        "description": "🍺 from Dunem"
+      },
+      {
+        "content": "CAACAgIAAxkBAAID72A4FsVpuH9zvuhEe1g-etboncYyAAJ4AAM_NfIElpXm6WsF23MeBA",
+        "contentType": "sticker",
+        "description": "🍺 from Everyone_stickers"
+      },
+      {
+        "content": "CAACAgIAAxkBAAID8WA4FtWPe2pbrlgW7zAMGDvDl-ksAAJxAAPww8AO8A_nXOlPiYoeBA",
+        "contentType": "sticker",
+        "description": "✋ from Otbitye"
+      },
+      {
+        "content": "CAACAgIAAxkBAAID82A4FvvvrrliPc8Ud2fkmVK4_7rBAAKcAAPww8AO2SgPv4a2YmoeBA",
+        "contentType": "sticker",
+        "description": "🍻 from Otbitye"
+      },
+      {
+        "content": "CAACAgQAAxkBAAID9WA4FwHz0Uh5wjyR_rFErbhMJLwcAAKGAAMv3_gJusOIk4fEuv8eBA",
+        "contentType": "sticker",
+        "description": "🍻 from blyadopapug"
+      },
+      {
+        "content": "CAACAgIAAxkBAAID92A4FwmFOQP9zRjS7fK3E_ShxMg-AAKkAANZAwMAAR195tUwezfMHgQ",
+        "contentType": "sticker",
+        "description": "🍻 from the_most_valuable_sticker_pack"
+      },
+      {
+        "content": "CAACAgIAAxkBAAID-WA4F8WasX2wszOXksK0fLANPm29AAJzBwACQaiuBqD3-B9YbJI1HgQ",
+        "contentType": "sticker",
+        "description": "🍷 from plasticovayazhizn"
       }
     ]
   }
