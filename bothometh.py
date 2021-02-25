@@ -9,7 +9,7 @@ from shutil import copy
 import telebot
 from telebot import util as bot_utils
 
-logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s', level=logging.INFO)
+logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s', level=logging.DEBUG)
 
 LOG = logging
 
@@ -90,13 +90,23 @@ def is_sticker(reply):
     return reply['contentType'] == 'sticker'
 
 
-def get_json_with_entities(message):
+def get_message_json(message):
     if not hasattr(message, 'json'):
         return None
-    json_val = message.json
-    if 'entities' not in json_val:
+    return message.json
+
+
+def get_attribute_from_message_json(message, attribute):
+    json_val = get_message_json(message)
+    if not json_val:
         return None
-    return json_val
+    if attribute not in json_val:
+        return None
+    return json_val[attribute]
+
+
+def get_message_entities(message):
+    return get_attribute_from_message_json(message, 'entities')
 
 
 def is_private(chat):
@@ -107,24 +117,22 @@ def are_we_mentioned(message):
     """Checks that bot mentioned in specified message"""
     if is_private(message.chat):
         return True
-    json_val = get_json_with_entities(message)
-    if not json_val:
+    entities = get_message_entities(message)
+    if not entities:
         return False
-    entities = json_val['entities']
     for ent in entities:
-        if ent['type'] == 'mention' and bot_details.username in json_val['text']:
+        if ent['type'] == 'mention' and bot_details.username in get_message_json(message)['text']:
             return True
     return False
 
 
 def get_mentioned_username(message):
-    json_val = get_json_with_entities(message)
-    if not json_val:
+    entities = get_message_entities(message)
+    if not entities:
         return None
-    entities = json_val['entities']
     for ent in entities:
         if ent['type'] == 'mention':
-            text = json_val['text']
+            text = get_attribute_from_message_json(message, 'text')
             # offset increased to remove @ sign
             start_position = ent['offset'] + 1
             mention_length = ent['length']
@@ -216,7 +224,7 @@ def select_not_recently_used(replies_set_ref):
     return select_random(available_replies)
 
 
-def reply_randomly(chat, message_to_reply, replies_set_ref):
+def reply_randomly(chat, replies_set_ref, message_to_reply=None):
     target_message_id = message_to_reply.id if message_to_reply else None
     reply = select_not_recently_used(replies_set_ref)
     if not reply:
@@ -232,7 +240,7 @@ def reply_randomly(chat, message_to_reply, replies_set_ref):
 
 
 def strong_reply(original_message, message_to_reply):
-    reply_randomly(original_message.chat, message_to_reply, 'strongReply')
+    reply_randomly(original_message.chat, 'strongReply', message_to_reply)
 
 
 def check_if_message_from_developer(message):
@@ -286,7 +294,7 @@ def reply_if_mentioned(message):
         strong_reply(message, msg_to_reply if msg_to_reply else message)
         return
     if is_simple_reply_allowed() and replied_to_us:
-        reply_randomly(message.chat, message, 'simpleReply')
+        reply_randomly(message.chat, 'simpleReply', message)
 
 
 @bot.message_handler(commands=['start', 'help'])
@@ -310,7 +318,9 @@ def trigger_settings_save(message):
 
 
 def mention_user(chat, username):
-    return bot.send_message(chat.id, '@' + username)
+    message = bot.send_message(chat.id, '@' + username)
+    LOG.debug('User %s mentioned in chat %s (%s)', username, chat.id, chat.title)
+    return message
 
 
 def resolve_command_target_message(message):
@@ -330,7 +340,7 @@ def resolve_command_target_message(message):
 def handle_user_command(command, message):
     LOG.info("Processing command '%s' from %s", command, get_message_author_username(message))
     target_message = resolve_command_target_message(message)
-    reply_randomly(message.chat, target_message, command_to_reply_map[command])
+    reply_randomly(message.chat, command_to_reply_map[command], target_message)
     if target_message != message and is_administrator(message.chat):
         bot.delete_message(message.chat.id, message.message_id)
 
@@ -342,7 +352,13 @@ def update_replies_with_generated_ids():
                 reply['id'] = hash(extract_reply_content(reply))
 
 
-@bot.message_handler(func=lambda m: True, content_types=bot_utils.content_type_media)
+def handle_new_participant(message):
+    participant = get_attribute_from_message_json(message, 'new_chat_participant')
+    mention_user(message.chat, participant['username'])
+    reply_randomly(message.chat, command_to_reply_map['hello'])
+
+
+@bot.message_handler(func=lambda m: True, content_types=(bot_utils.content_type_media + bot_utils.content_type_service))
 def fallback_handler(message):
     command = bot_utils.extract_command(message.text)
     if not command:
@@ -351,7 +367,7 @@ def fallback_handler(message):
         handle_user_command(command, message)
         return
     if message.content_type == 'new_chat_members':
-        reply_randomly(message.chat, message, command_to_reply_map['hello'])
+        handle_new_participant(message)
         return
     if message.content_type == 'sticker' \
             and is_dev_mode_enabled() \
