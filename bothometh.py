@@ -350,6 +350,9 @@ def fallback_handler(message):
     if command and command in configured_commands:
         handle_user_command(command, message)
         return
+    if message.content_type == 'new_chat_members':
+        reply_randomly(message.chat, message, command_to_reply_map['hello'])
+        return
     if message.content_type == 'sticker' \
             and is_dev_mode_enabled() \
             and is_private(message.chat):
