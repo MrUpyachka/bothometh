@@ -1,2 +1,5 @@
-def is_private(chat):
+from telebot.types import Chat
+
+
+def is_private(chat: Chat):
     return chat.type == 'private'

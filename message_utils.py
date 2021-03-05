@@ -1,14 +1,16 @@
+from telebot.types import Message
+
 import chat_utils
 
 
-def get_message_author_username(message):
+def get_message_author_username(message: Message):
     from_user = message.from_user
     if from_user is None or not hasattr(from_user, 'username'):
         return None
     return from_user.username
 
 
-def get_reply_to_message(message):
+def get_reply_to_message(message: Message):
     """Returns ID of message specified message replies to"""
     if not hasattr(message, 'reply_to_message'):
         return None
@@ -18,13 +20,13 @@ def get_reply_to_message(message):
     return reply_to_message
 
 
-def get_message_json(message):
+def get_message_json(message: Message):
     if not hasattr(message, 'json'):
         return None
     return message.json
 
 
-def get_attribute_from_message_json(message, attribute):
+def get_attribute_from_message_json(message: Message, attribute):
     json_val = get_message_json(message)
     if not json_val:
         return None
@@ -33,11 +35,11 @@ def get_attribute_from_message_json(message, attribute):
     return json_val[attribute]
 
 
-def get_message_entities(message):
+def get_message_entities(message: Message):
     return get_attribute_from_message_json(message, 'entities')
 
 
-def get_mentioned_username(message):
+def get_mentioned_username(message: Message):
     entities = get_message_entities(message)
     if not entities:
         return None
@@ -51,7 +53,7 @@ def get_mentioned_username(message):
     return None
 
 
-def is_replied_to(message, username):
+def is_replied_to(message: Message, username):
     """Checks that message replies to our own message"""
     reply_to_message = get_reply_to_message(message)
     if reply_to_message is None:
@@ -61,7 +63,7 @@ def is_replied_to(message, username):
     return False
 
 
-def is_mentioned(message, username):
+def is_mentioned(message: Message, username):
     if chat_utils.is_private(message.chat):
         return True
     entities = get_message_entities(message)
