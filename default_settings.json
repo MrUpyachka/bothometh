@@ -17,7 +17,8 @@
     "hello": "hello",
     "friday": "party",
     "top": "thumb_up",
-    "like": "thumb_up"
+    "like": "thumb_up",
+    "report_bug": "bug"
   },
   "replies": {
     "excuse": [
@@ -708,6 +709,13 @@
         "content": "CAACAgIAAxkBAAIR22BBburw7PWnt2Cp83eYEg2LrHZBAAK5AANoml0M8tDNssFk9X0eBA",
         "contentType": "sticker",
         "description": "👍 from sad_crying_cat"
+      }
+    ],
+    "bug": [
+      {
+        "content": "@upyach, опять пьяный кодил?",
+        "contentType": "text",
+        "description": "yet another bug..."
       }
     ]
   }
