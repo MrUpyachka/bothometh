@@ -15,7 +15,9 @@
     "excuse": "excuse",
     "pills": "doctor",
     "hello": "hello",
-    "friday": "party"
+    "friday": "party",
+    "top": "thumb_up",
+    "like": "thumb_up"
   },
   "replies": {
     "excuse": [
@@ -674,6 +676,38 @@
         "content": "CAACAgIAAxkBAAID-WA4F8WasX2wszOXksK0fLANPm29AAJzBwACQaiuBqD3-B9YbJI1HgQ",
         "contentType": "sticker",
         "description": "🍷 from plasticovayazhizn"
+      },
+      {
+        "content": "CAACAgIAAxkBAAIR1WBBblv970QL-uwdz3slc48NoC56AAJWGAACQq9pAAHRE-Dov7CEwh4E",
+        "contentType": "sticker",
+        "description": "👍 from justtestpack_new"
+      }
+    ],
+    "thumb_up": [
+      {
+        "content": "CAACAgIAAxkBAAIRy2BBbWnc6Xy3X2gPgmSi3GQqZwkKAAKhAAM_NfIEqjYQtsnaJBMeBA",
+        "contentType": "sticker",
+        "description": "👍 from achievement_unlock"
+      },
+      {
+        "content": "CAACAgIAAxkBAAIRz2BBbf-FC7LfFOrvFoPUhHtKi5NkAAJEAAPWNRIAAREFWU-KoN7ZHgQ",
+        "contentType": "sticker",
+        "description": "👍 from HannibalLecter"
+      },
+      {
+        "content": "CAACAgIAAxkBAAIR02BBbi2cqHzGDIidzecCessjqBreAAJoAAONKx8MvELnWDfAWA8eBA",
+        "contentType": "sticker",
+        "description": "👍 from mongrelspack"
+      },
+      {
+        "content": "CAACAgIAAxkBAAIR12BBbrLFglkX0zB4vAGWeeZu_HUSAAKFAAPww8AOO5AuoBMx4JoeBA",
+        "contentType": "sticker",
+        "description": "😘 from Otbitye"
+      },
+      {
+        "content": "CAACAgIAAxkBAAIR22BBburw7PWnt2Cp83eYEg2LrHZBAAK5AANoml0M8tDNssFk9X0eBA",
+        "contentType": "sticker",
+        "description": "👍 from sad_crying_cat"
       }
     ]
   }
