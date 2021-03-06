@@ -11,6 +11,7 @@ import replies_history as rh_module
 import reply_settings_utils
 import chat_utils
 import message_utils
+import meme_utils
 from check_admin import AdminPermissionsChecker
 from developer import DevMode
 from messages_history import MessagesHistory
@@ -103,6 +104,17 @@ def toggle_reactions_on_command(message):
 @bot.message_handler(commands=['save'])
 def trigger_settings_save(message):
     handle_if_message_from_developer(message, lambda m: write_settings_to_file())
+
+
+@bot.message_handler(commands=["meme"])
+def memes_from_reddit(message):
+    meme = meme_utils.get_reddit_meme()
+    if meme is None:
+        bot.send_message(message.chat.id, 'No memes :(')
+    else:
+        title = meme['title']
+        image = meme['url']
+        bot.send_photo(message.chat.id, image, caption=title)
 
 
 def mention_user(chat, username):
