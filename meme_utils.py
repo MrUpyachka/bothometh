@@ -11,7 +11,7 @@ reddit = praw.Reddit(client_id=os.getenv("CLIENT_ID"),
                      )
 
 topic = 'meme'
-query = 'bonk OR horny OR hornyjail OR waifu OR thicc'
+query = 'bonk OR horny OR hornyjail OR waifu'
 meme_list = []
 
 
