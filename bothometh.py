@@ -114,7 +114,7 @@ def memes_from_reddit(message):
     else:
         title = meme['title']
         image = meme['url']
-        bot.send_message(message.chat.id, title + '\n' + image)
+        bot.send_photo(message.chat.id, image, caption=title)
 
 
 def mention_user(chat, username):
