@@ -1,8 +1,9 @@
-import reply_settings_utils
-import message_utils
 from telebot import TeleBot
-from replies_history import RepliesHistory
+
+import message_utils
+import reply_settings_utils
 from logger import LOG
+from replies_history import RepliesHistory
 
 
 def is_sticker(reply):
@@ -14,8 +15,7 @@ def extract_reply_desc(reply):
 
 
 class Replier:
-    def __init__(self, bot: TeleBot, replies_settings, replies_history: RepliesHistory):
-        self.replies_settings = replies_settings
+    def __init__(self, bot: TeleBot, replies_history: RepliesHistory):
         self.replies_history = replies_history
         self.bot = bot
 

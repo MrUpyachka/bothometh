@@ -1,20 +1,19 @@
 {
   "developerUsernames": [
-    "upyach"
+    "upyach",
+    "afanasij_art"
   ],
   "devModeEnabled": true,
   "simpleReplyEnabled": true,
   "strongReplyEnabled": true,
   "bonkEnabled": true,
   "commandToReplies": {
-    "bonk": "bonk",
     "report_horny": "bonk",
     "aggress": "strongReply",
     "report_bayan": "bayan",
     "pity": "sympathy",
     "excuse": "excuse",
     "pills": "doctor",
-    "hello": "hello",
     "friday": "party",
     "top": "thumb_up",
     "like": "thumb_up",

@@ -4,17 +4,18 @@ from shutil import copy
 
 import telebot
 from telebot import util as bot_utils
+from telebot.types import Chat, Message
 
 import chat_utils
 import logger
 import message_utils
 import replies_history as rh_module
-import reply_settings_utils
 from check_admin import AdminPermissionsChecker
 from developer import DevMode
 from meme_publisher import MemePublisher
 from messages_history import MessagesHistory
 from reply import Replier
+from replies_settings import RepliesSettings
 
 LOG = logger.LOG
 
@@ -35,14 +36,12 @@ with open(settings_file_path, 'r', encoding=settings_file_encoding) as settings_
     settings = json.load(settings_file)
 developer_usernames = settings['developerUsernames']
 
-command_to_reply_map = settings['commandToReplies']
-replies_settings = settings['replies']
 meme_settings = settings['meme']
-configured_commands = command_to_reply_map.keys()
 
 messages_history = MessagesHistory()
+replies_settings = RepliesSettings(settings)
 replies_history = rh_module.RepliesHistory(replies_settings)
-replier = Replier(bot, replies_settings, replies_history)
+replier = Replier(bot, replies_history)
 dev_mode = DevMode(settings, bot)
 admin_permissions_checker = AdminPermissionsChecker(bot, bot_details)
 meme_publisher = MemePublisher(os.getenv("REDDIT_CLIENT_ID"),
@@ -58,7 +57,7 @@ def write_settings_to_file():
     LOG.info('Settings file updated.')
 
 
-def strong_reply(original_message, message_to_reply):
+def strong_reply(original_message: Message, message_to_reply: Message):
     replier.reply_randomly(original_message.chat, 'strongReply', message_to_reply)
 
 
@@ -74,7 +73,7 @@ def handle_if_message_from_developer(message, handler):
         strong_reply(message, message)
 
 
-def reply_if_mentioned(message):
+def reply_if_mentioned(message: Message):
     self_username = bot_details.username
     replied_to_us = message_utils.is_replied_to(message, self_username)
     mentioned = message_utils.is_mentioned(message, self_username)
@@ -111,7 +110,7 @@ def trigger_settings_save(message):
 
 
 @bot.message_handler(commands=["meme"])
-def memes_from_reddit(message):
+def memes_from_reddit(message: Message):
     meme = meme_publisher.get_reddit_meme()
     if meme is None:
         bot.send_message(message.chat.id, 'No memes :(')
@@ -121,7 +120,7 @@ def memes_from_reddit(message):
         bot.send_photo(message.chat.id, image, caption=title)
 
 
-def mention_user(chat, username):
+def mention_user(chat: Chat, username):
     message = bot.send_message(chat.id, '@' + username)
     LOG.debug('User %s mentioned in chat %s (%s)', username, chat.id, chat.title)
     return message
@@ -144,22 +143,15 @@ def resolve_command_target_message(message):
 def handle_user_command(command, message):
     LOG.info("Processing command '%s' from %s", command, message_utils.get_message_author_username(message))
     target_message = resolve_command_target_message(message)
-    replier.reply_randomly(message.chat, command_to_reply_map[command], target_message)
+    replier.reply_randomly(message.chat, command, target_message)
     if target_message != message and admin_permissions_checker.is_administrator(message.chat):
         bot.delete_message(message.chat.id, message.message_id)
-
-
-def update_replies_with_generated_ids():
-    for replies_set_ref in replies_settings:
-        for reply in replies_settings[replies_set_ref]:
-            if 'id' not in reply:
-                reply['id'] = hash(reply_settings_utils.extract_reply_content(reply))
 
 
 def handle_new_participant(message):
     participant = message_utils.get_attribute_from_message_json(message, 'new_chat_participant')
     mention_user(message.chat, participant['username'])
-    replier.reply_randomly(message.chat, command_to_reply_map['hello'])
+    replier.reply_randomly(message.chat, replies_settings.get_replies_set('hello'))
 
 
 @bot.message_handler(func=lambda m: True, content_types=(bot_utils.content_type_media + bot_utils.content_type_service))
@@ -167,7 +159,7 @@ def fallback_handler(message):
     command = bot_utils.extract_command(message.text)
     if not command:
         messages_history.save(message)
-    if command and command in configured_commands:
+    if command and replies_settings.is_configured(command):
         handle_user_command(command, message)
         return
     if message.content_type == 'new_chat_members':

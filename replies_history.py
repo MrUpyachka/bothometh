@@ -2,6 +2,7 @@ import collections
 
 import random
 from logger import LOG
+from reply_settings import RepliesSettings
 
 
 def select_random(choices):
@@ -18,17 +19,17 @@ def calculate_replies_history_size(replies_set):
 
 
 class RepliesHistory:
-    def __init__(self, replies_settings):
+    def __init__(self, replies_settings: RepliesSettings):
         self.replies_settings = replies_settings
         self.replies_history = {}
 
     def get_recently_used_replies_ids(self, replies_set_ref):
         if replies_set_ref in self.replies_history:
             return self.replies_history[replies_set_ref]
-        if replies_set_ref not in self.replies_settings:
+        if not self.replies_settings.is_configured(replies_set_ref):
             LOG.debug("Unable to get replies usage history for '%s'", replies_set_ref)
             return None
-        history_length = calculate_replies_history_size(self.replies_settings[replies_set_ref])
+        history_length = calculate_replies_history_size(self.replies_settings.get_replies_set(replies_set_ref))
         replies_set_history = collections.deque([], history_length)
         self.replies_history[replies_set_ref] = replies_set_history
         return replies_set_history
@@ -37,7 +38,7 @@ class RepliesHistory:
         self.get_recently_used_replies_ids(replies_set_ref).append(reply['id'])
 
     def select_not_recently_used(self, replies_set_ref):
-        replies_set = self.replies_settings[replies_set_ref]
+        replies_set = self.replies_settings.get_replies_set(replies_set_ref)
         if not replies_set:
             LOG.info("No replies available for %s", replies_set_ref)
             return None
