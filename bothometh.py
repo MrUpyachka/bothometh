@@ -176,5 +176,5 @@ def fallback_handler(message):
     reply_if_mentioned(message)
 
 
-update_replies_with_generated_ids()
+replies_settings.update_replies_with_generated_ids()
 bot.infinity_polling()
