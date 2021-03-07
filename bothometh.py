@@ -1,28 +1,25 @@
 import json
-import os.path
-import sys
+import os
 from shutil import copy
 
 import telebot
 from telebot import util as bot_utils
 
+import chat_utils
 import logger
+import message_utils
 import replies_history as rh_module
 import reply_settings_utils
-import chat_utils
-import message_utils
 from check_admin import AdminPermissionsChecker
 from developer import DevMode
+from meme_publisher import MemePublisher
 from messages_history import MessagesHistory
 from reply import Replier
-from meme_publisher import MemePublisher
 
 LOG = logger.LOG
 
-args = sys.argv
-run_args=json.loads(args[1])
-key = run_args['telegramBotKey']
-settings_dir = sys.argv[2]
+key = os.getenv("TELEGRAM_BOT_KEY")
+settings_dir = os.getenv("BOT_SETTINGS_DIR")
 bot = telebot.TeleBot(key, threaded=False)
 bot_details = bot.get_me()
 LOG.debug('Bot details retrieved: %s', bot_details)
@@ -47,9 +44,9 @@ replies_history = rh_module.RepliesHistory(replies_settings)
 replier = Replier(bot, replies_settings, replies_history)
 dev_mode = DevMode(settings, bot)
 admin_permissions_checker = AdminPermissionsChecker(bot, bot_details)
-meme_publisher = MemePublisher(run_args['redditClientId'],
-                               run_args['redditClientSecret'],
-                               run_args['redditClientUserAgent'])
+meme_publisher = MemePublisher(os.getenv("REDDIT_CLIENT_ID"),
+                               os.getenv("REDDIT_CLIENT_SECRET"),
+                               os.getenv("REDDIT_CLIENT_USER_AGENT"))
 
 
 def write_settings_to_file():
