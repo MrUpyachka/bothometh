@@ -12,7 +12,7 @@ class RepliesSettings:
 
     def get_replies_set(self, ref):
         if ref in self.configured_commands:
-            return self.command_to_reply_map[ref]
+            return self.replies_map[self.command_to_reply_map[ref]]
         if ref in self.configured_sets:
             return self.replies_map[ref]
         return None
