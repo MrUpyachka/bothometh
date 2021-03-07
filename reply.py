@@ -1,7 +1,7 @@
 from telebot import TeleBot
 
 import message_utils
-import reply_settings_utils
+import replies_settings
 from logger import LOG
 from replies_history import RepliesHistory
 
@@ -30,7 +30,7 @@ class Replier:
         if not reply:
             LOG.info("Unable to select reply for '%s'", replies_set_ref)
             return
-        content = reply_settings_utils.extract_reply_content(reply)
+        content = replies_settings.extract_reply_content(reply)
         self.resolve_send_function(reply)(chat.id, content, reply_to_message_id=target_message_id)
         self.replies_history.update_recently_used_replies(replies_set_ref, reply)
         LOG.info("Replied to %s with '%s' from '%s'",

@@ -1,8 +1,6 @@
 from operator import or_
 from functools import reduce
 
-import reply_settings_utils
-
 
 class RepliesSettings:
     def __init__(self, settings):
@@ -26,4 +24,8 @@ class RepliesSettings:
         for replies_set_ref in self.replies_map:
             for reply in self.replies_map[replies_set_ref]:
                 if 'id' not in reply:
-                    reply['id'] = hash(reply_settings_utils.extract_reply_content(reply))
+                    reply['id'] = hash(extract_reply_content(reply))
+
+
+def extract_reply_content(reply):
+    return reply['content']

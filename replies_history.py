@@ -2,7 +2,7 @@ import collections
 
 import random
 from logger import LOG
-from reply_settings import RepliesSettings
+from replies_settings import RepliesSettings
 
 
 def select_random(choices):
