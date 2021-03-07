@@ -20,6 +20,10 @@
     "like": "thumb_up",
     "report_bug": "bug"
   },
+  "meme": {
+    "topic": "memes",
+    "query": "bonk OR horny OR hornyjail OR waifu"
+  },
   "replies": {
     "excuse": [
       {

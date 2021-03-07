@@ -6,12 +6,12 @@ LOG = logger.LOG
 
 
 class MemePublisher:
-    def __init__(self, reddit_client_id, reddit_client_secret, reddit_client_user_agent):
+    def __init__(self, reddit_client_id, reddit_client_secret, reddit_client_user_agent, topic, query):
         self.reddit = praw.Reddit(client_id=reddit_client_id,
                                   client_secret=reddit_client_secret,
                                   user_agent=reddit_client_user_agent)
-        self.topic = 'meme'
-        self.query = 'bonk OR horny OR hornyjail OR waifu'
+        self.topic = topic
+        self.query = query
         self.meme_list = []
 
     def refresh_memes(self):
