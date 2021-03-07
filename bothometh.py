@@ -37,6 +37,7 @@ developer_usernames = settings['developerUsernames']
 
 command_to_reply_map = settings['commandToReplies']
 replies_settings = settings['replies']
+meme_settings = settings['meme']
 configured_commands = command_to_reply_map.keys()
 
 messages_history = MessagesHistory()
@@ -46,7 +47,9 @@ dev_mode = DevMode(settings, bot)
 admin_permissions_checker = AdminPermissionsChecker(bot, bot_details)
 meme_publisher = MemePublisher(os.getenv("REDDIT_CLIENT_ID"),
                                os.getenv("REDDIT_CLIENT_SECRET"),
-                               os.getenv("REDDIT_CLIENT_USER_AGENT"))
+                               os.getenv("REDDIT_CLIENT_USER_AGENT"),
+                               meme_settings['topic'],
+                               meme_settings['query'])
 
 
 def write_settings_to_file():
