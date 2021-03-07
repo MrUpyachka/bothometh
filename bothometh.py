@@ -11,16 +11,17 @@ import replies_history as rh_module
 import reply_settings_utils
 import chat_utils
 import message_utils
-import meme_utils
 from check_admin import AdminPermissionsChecker
 from developer import DevMode
 from messages_history import MessagesHistory
 from reply import Replier
+from meme_publisher import MemePublisher
 
 LOG = logger.LOG
 
 args = sys.argv
-key = sys.argv[1]
+run_args=json.loads(args[1])
+key = run_args['telegramBotKey']
 settings_dir = sys.argv[2]
 bot = telebot.TeleBot(key, threaded=False)
 bot_details = bot.get_me()
@@ -46,6 +47,9 @@ replies_history = rh_module.RepliesHistory(replies_settings)
 replier = Replier(bot, replies_settings, replies_history)
 dev_mode = DevMode(settings, bot)
 admin_permissions_checker = AdminPermissionsChecker(bot, bot_details)
+meme_publisher = MemePublisher(run_args['redditClientId'],
+                               run_args['redditClientSecret'],
+                               run_args['redditClientUserAgent'])
 
 
 def write_settings_to_file():
@@ -108,7 +112,7 @@ def trigger_settings_save(message):
 
 @bot.message_handler(commands=["meme"])
 def memes_from_reddit(message):
-    meme = meme_utils.get_reddit_meme()
+    meme = meme_publisher.get_reddit_meme()
     if meme is None:
         bot.send_message(message.chat.id, 'No memes :(')
     else:
