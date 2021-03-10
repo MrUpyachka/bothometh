@@ -21,7 +21,12 @@
   },
   "meme": {
     "topic": "memes",
-    "query": "bonk OR horny OR hornyjail OR waifu"
+    "queries": [
+      "bonk",
+      "horny",
+      "hornyjail",
+      "waifu"
+    ]
   },
   "replies": {
     "excuse": [

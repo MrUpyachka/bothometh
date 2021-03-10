@@ -4,7 +4,7 @@ from shutil import copy
 
 import telebot
 from telebot import util as bot_utils
-from telebot.types import Chat, Message
+from telebot.types import Chat, Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 
 import chat_utils
 import logger
@@ -12,10 +12,11 @@ import message_utils
 import replies_history as rh_module
 from check_admin import AdminPermissionsChecker
 from developer import DevMode
-from meme_publisher import MemePublisher
+from meme_publisher import MemePublisher, QUERY_PREFIX
 from messages_history import MessagesHistory
-from reply import Replier
+from personal_limit import PersonalUsageLimit
 from replies_settings import RepliesSettings
+from reply import Replier
 
 LOG = logger.LOG
 
@@ -24,7 +25,7 @@ settings_dir = os.getenv("BOT_SETTINGS_DIR")
 bot = telebot.TeleBot(key, threaded=False)
 bot_details = bot.get_me()
 LOG.debug('Bot details retrieved: %s', bot_details)
-mentioned_key = '@' + bot_details.username
+mentioned_key = message_utils.get_mention_text(bot_details.username)
 
 settings_file_path = settings_dir + '/settings.json'
 settings_file_encoding = 'utf-8'
@@ -36,19 +37,18 @@ with open(settings_file_path, 'r', encoding=settings_file_encoding) as settings_
     settings = json.load(settings_file)
 developer_usernames = settings['developerUsernames']
 
-meme_settings = settings['meme']
-
 messages_history = MessagesHistory()
 replies_settings = RepliesSettings(settings)
 replies_history = rh_module.RepliesHistory(replies_settings)
 replier = Replier(bot, replies_history)
 dev_mode = DevMode(settings, bot)
 admin_permissions_checker = AdminPermissionsChecker(bot, bot_details)
+
 meme_publisher = MemePublisher(os.getenv("REDDIT_CLIENT_ID"),
                                os.getenv("REDDIT_CLIENT_SECRET"),
                                os.getenv("REDDIT_CLIENT_USER_AGENT"),
-                               meme_settings['topic'],
-                               meme_settings['query'])
+                               settings['meme'])
+personal_usage_limit = PersonalUsageLimit()
 
 
 def write_settings_to_file():
@@ -111,17 +111,14 @@ def trigger_settings_save(message):
 
 @bot.message_handler(commands=["meme"])
 def memes_from_reddit(message: Message):
-    meme = meme_publisher.get_reddit_meme()
-    if meme is None:
-        bot.send_message(message.chat.id, 'No memes :(')
-    else:
-        title = meme['title']
-        image = meme['url']
-        bot.send_photo(message.chat.id, image, caption=title)
+    if handle_usage_limit('meme', message):
+        return
+    bot.send_message(message.chat.id, "What kind of meme you prefer?",
+                     reply_markup=meme_publisher.queries_markup())
 
 
 def mention_user(chat: Chat, username):
-    message = bot.send_message(chat.id, '@' + username)
+    message = bot.send_message(chat.id, message_utils.get_mention_text(username))
     LOG.debug('User %s mentioned in chat %s (%s)', username, chat.id, chat.title)
     return message
 
@@ -140,18 +137,73 @@ def resolve_command_target_message(message):
     return message
 
 
+def handle_usage_limit(command, message):
+    if not personal_usage_limit.check_available(message, command):
+        delete_message_if_admin(message)
+        bot.send_message(message.chat.id,
+                         "%s, your \'%s\' usage limit exceeded for now." % (
+                             message_utils.get_message_author_mention(message),
+                             command),
+                         reply_markup=notification_markup())
+        return True
+    return False
+
+
 def handle_user_command(command, message):
+    if handle_usage_limit(command, message):
+        return
     LOG.info("Processing command '%s' from %s", command, message_utils.get_message_author_username(message))
     target_message = resolve_command_target_message(message)
     replier.reply_randomly(message.chat, command, target_message)
-    if target_message != message and admin_permissions_checker.is_administrator(message.chat):
+    personal_usage_limit.update_stats(message, command)
+    if target_message != message:
+        delete_message_if_admin(message)
+
+
+def delete_message_if_admin(message):
+    if admin_permissions_checker.is_administrator(message.chat):
         bot.delete_message(message.chat.id, message.message_id)
 
 
 def handle_new_participant(message):
     participant = message_utils.get_attribute_from_message_json(message, 'new_chat_participant')
     mention_user(message.chat, participant['username'])
-    replier.reply_randomly(message.chat, replies_settings.get_replies_set('hello'))
+    replier.reply_randomly(message.chat, 'hello')
+
+
+def notification_markup():
+    result = InlineKeyboardMarkup()
+    result.row_width = 1
+    result.add(InlineKeyboardButton("Ok...", callback_data="acknowledged"))
+    return result
+
+
+def handle_user_acknowledged(call: CallbackQuery):
+    bot.answer_callback_query(call.id, "Cheers!")
+
+
+def handle_meme_query_chosen(call: CallbackQuery):
+    data = call.data
+    query = data[len(QUERY_PREFIX):len(data)]
+    message = call.message
+    meme = meme_publisher.get_reddit_meme(query)
+    if meme is None:
+        bot.send_message(message.chat.id, 'No memes :(')
+    else:
+        title = meme['title']
+        image = meme['url']
+        bot.send_photo(message.chat.id, image, caption=title)
+
+
+@bot.callback_query_handler(func=lambda call: True)
+def callback_query(call: CallbackQuery):
+    delete_message_if_admin(call.message)
+    data = call.data
+    handlers = {'acknowledged': lambda: handle_user_acknowledged(call)}
+    if data in handlers:
+        handlers[data]()
+    elif data.startswith(QUERY_PREFIX):
+        handle_meme_query_chosen(call)
 
 
 @bot.message_handler(func=lambda m: True, content_types=(bot_utils.content_type_media + bot_utils.content_type_service))

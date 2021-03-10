@@ -4,6 +4,7 @@ import message_utils
 import replies_settings
 from logger import LOG
 from replies_history import RepliesHistory
+from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 def is_sticker(reply):
