@@ -3,11 +3,20 @@ from telebot.types import Message
 import chat_utils
 
 
+def get_mention_text(username):
+    return '@' + username
+
+
 def get_message_author_username(message: Message):
     from_user = message.from_user
     if from_user is None or not hasattr(from_user, 'username'):
         return None
     return from_user.username
+
+
+def get_message_author_mention(message: Message):
+    username = get_message_author_username(message)
+    return get_mention_text(username) if username else None
 
 
 def get_reply_to_message(message: Message):
