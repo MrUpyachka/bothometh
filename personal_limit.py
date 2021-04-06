@@ -18,7 +18,7 @@ class CommandStats:
 
 
 class PersonalUsageLimit:
-    def __init__(self, chats_history_limit=30, limit_reset_interval_minutes=60 * 3):
+    def __init__(self, chats_history_limit=300, limit_reset_interval_minutes=60):
         self.chats_history_limit = chats_history_limit
         self.limit_reset_interval_minutes = limit_reset_interval_minutes
         self.chats_stats = {}
@@ -43,19 +43,22 @@ class PersonalUsageLimit:
         author_username = get_message_author_username(message)
         stats = self.get_command_stats(message.chat, author_username, command)
         if not stats:
-            LOG.debug('No statistic available for chat %s (%s). Commands allowed by default.', chat.id, chat.title)
+            LOG.info('No statistic available for chat %s (%s). Commands allowed by default', chat.id, chat.title)
             return True
         if stats.used_count >= stats.usage_limit:
             if not stats.first_abuse_date_time:
-                LOG.debug('Command limit exceeded for user %s and command %s.', author_username, command)
+                LOG.info('Command limit exceeded for user %s and command %s in %s (%s)',
+                         author_username, command, chat.id, chat.title)
                 stats.first_abuse_date_time = datetime.now()
             elif calculate_minutes_diff(datetime.now(),
                                         stats.first_abuse_date_time) > self.limit_reset_interval_minutes:
-                LOG.debug('It\'s time to refresh limit for user %s and command %s.', author_username, command)
+                LOG.info('It\'s time to refresh limit for user %s and command %s in %s (%s)',
+                         author_username, command, chat.id, chat.title)
                 stats.first_abuse_date_time = None
                 stats.used_count = 0
                 return True
-            LOG.debug('No usage attempts available for user %s and command %s.', author_username, command)
+            LOG.info('No usage attempts available for user %s and command %s  in %s (%s)',
+                     author_username, command, chat.id, chat.title)
             return False
         return True
 

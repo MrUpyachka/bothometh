@@ -4,7 +4,6 @@ import message_utils
 import replies_settings
 from logger import LOG
 from replies_history import RepliesHistory
-from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 def is_sticker(reply):
@@ -34,7 +33,8 @@ class Replier:
         content = replies_settings.extract_reply_content(reply)
         self.resolve_send_function(reply)(chat.id, content, reply_to_message_id=target_message_id)
         self.replies_history.update_recently_used_replies(replies_set_ref, reply)
-        LOG.info("Replied to %s with '%s' from '%s'",
-                 message_utils.get_message_author_username(message_to_reply) if message_to_reply else chat.title,
+        LOG.info("Replied to %s with '%s' from '%s' in chat '%s'",
+                 message_utils.get_message_author_username(message_to_reply) if message_to_reply else "all",
                  extract_reply_desc(reply),
-                 replies_set_ref)
+                 replies_set_ref,
+                 chat.title)

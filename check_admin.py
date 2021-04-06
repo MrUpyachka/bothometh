@@ -4,7 +4,7 @@ import chat_utils
 
 
 class AdminPermissionsChecker:
-    def __init__(self, bot: TeleBot, bot_details, admin_check_history_limit=100):
+    def __init__(self, bot: TeleBot, bot_details, admin_check_history_limit=300):
         self.admin_check_history_limit = admin_check_history_limit
         self.admin_check_history = {}
         self.bot = bot
